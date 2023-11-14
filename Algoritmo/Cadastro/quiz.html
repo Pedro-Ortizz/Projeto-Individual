@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz sobre Neymar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #quiz-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: left;
+            display: none;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        input {
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .quiz-result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <h2>Quiz sobre Neymar</h2>
+        <form id="quiz-form">
+            <div id="question-container"></div>
+            <button type="button" id="next-button">Avançar</button>
+            <p id="resultado" class="quiz-result"></p>
+        </form>
+    </div>
+
+    <script>
+        var currentQuestionIndex = 0;
+        var questions = [
+            {
+                question: "Qual é o nome completo de Neymar?",
+                options: ["Neymar Ronaldo da Silva", "Neymar da Silva Santos Júnior", "Neymar José da Silva"],
+                correctAnswer: 2
+            },
+            {
+                question: "Em qual clube Neymar começou sua carreira profissional?",
+                options: ["Barcelona", "Paris Saint-Germain (PSG)", "Santos"],
+                correctAnswer: 3
+            },
+            {
+                question: "Em que ano Neymar estreou na Seleção Brasileira principal?",
+                options: ["2009", "2010", "2011"],
+                correctAnswer: 2
+            },
+            {
+                question: "Qual é o país de origem de Neymar?",
+                options: ["Argentina", "Brasil", "Portugal"],
+                correctAnswer: 2
+            },
+            {
+                question: "Em qual posição Neymar geralmente joga?",
+                options: ["Goleiro", "Atacante", "Zagueiro"],
+                correctAnswer: 2
+            },
+            {
+                question: "Quantas vezes Neymar ganhou o prêmio de Melhor Jogador do Mundo da FIFA?",
+                options: ["0", "1", "2"],
+                correctAnswer: 1
+            },
+            {
+                question: "Quantos gols Neymar tem na carreira?",
+                options: ["398 gols", "515 gols", "475 gols"],
+                correctAnswer: 3
+            },
+            {
+                question: "Qual é o nome do filho mais velho de Neymar?",
+                options: ["Davi Lucca", "Lucas Neymar", "João Pedro"],
+                correctAnswer: 1
+            },
+            {
+                question: "Neymar já venceu a Liga dos Campeões da UEFA com qual clube?",
+                options: ["Barcelona", "Paris Saint-Germain (PSG)", "Santos"],
+                correctAnswer: 1
+            },
+            {
+                question: "Em 2016, Neymar conquistou a inédita medalha de ouro olímpica com a Seleção Brasileira. Em qual cidade o torneio foi realizado?",
+                options: ["Pequim", "Londres", "Rio de Janeiro"],
+                correctAnswer: 3
+            }
+        ];
+
+        var quizContainer = document.getElementById("quiz-container");
+        var questionContainer = document.getElementById("question-container");
+        var nextButton = document.getElementById("next-button");
+        var resultadoElement = document.getElementById('resultado');
+
+        nextButton.addEventListener("click", function() {
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questions.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        });
+
+        function showQuestion() {
+            var currentQuestion = questions[currentQuestionIndex];
+
+            questionContainer.innerHTML = "<p>" + currentQuestion.question + "</p>";
+
+            for (var i = 0; i < currentQuestion.options.length; i++) {
+                var input = document.createElement("input");
+                input.type = "radio";
+                input.name = "q" + currentQuestionIndex;
+                input.value = i + 1;
+
+                var label = document.createElement("label");
+                label.textContent = " " + String.fromCharCode(96 + i) + ") " + currentQuestion.options[i];
+
+                questionContainer.appendChild(input);
+                questionContainer.appendChild(label);
+                questionContainer.appendChild(document.createElement("br"));
+            }
+        }
+
+        function showResult() {
+            quizContainer.style.display = "none";
+
+            var respostasCorretas = 0;
+
+            questions.forEach(function (q, index) {
+                var resposta = document.querySelector('input[name="q' + index + '"]:checked');
+                if (resposta && parseInt(resposta.value) === q.correctAnswer) {
+                    respostasCorretas++;
+                }
+            });
+
+            resultadoElement.innerHTML = 'Você acertou ' + respostasCorretas + ' de 10 perguntas.';
+            resultadoElement.style.display = "block";
+        }
+
+        window.onload = function() {
+            showQuestion();
+            quizContainer.style.display = "block";
+        };
+    </script>
+</body>
+</html>
